@@ -3,6 +3,7 @@ import { translateType } from "../../utils/translateType";
 import { translateStat } from "../../utils/translateStat";
 import { upperFirst } from "../../utils/upperFirst";
 import "./Pokecard.css";
+import { Link } from "react-router-dom";
 
 export default function Pokecard({ ref, pokemon, details, ...props }) {
   if (details) {
@@ -136,48 +137,50 @@ export default function Pokecard({ ref, pokemon, details, ...props }) {
     );
   }
   return (
-    <div
-      ref={ref}
-      className={`pokecard relative flex items-center hover:scale-105 duration-150 justify-between p-5 cursor-pointer rounded-lg shadow-2xl h-[170px] ${pokemon.types[0].type.name}`}
-    >
-      {/* Infos */}
-      <div className="flex flex-col gap-1 w-5/12">
-        {/* Pokemon ID */}
-        <span className="text-sm font-extrabold" style={{ color: "#0006" }}>
-          #{pokemon.id}
-        </span>
-        {/* Pokemon Name */}
-        <span className="text-3xl font-semibold text-white">
-          {upperFirst(translateName(pokemon.name))}
-        </span>
-        {/* Pokemon Types */}
-        <div className="types flex gap-1 text-white text-xs">
-          {pokemon.types.map((type) => (
-            <div
-              key={`${pokemon.name}-${type.type.name}}`}
-              className={`rounded px-1.5 py-1 ${type.type.name} flex items-center gap-1`}
-            >
-              <img
-                src={`/types/${type.type.name}.svg`}
-                alt={type.type.name}
-                className="w-3 h-3"
-              />
-              {upperFirst(translateType(type.type.name))}
-            </div>
-          ))}
+    <Link to={`/pokemon/${pokemon.id}`}>
+      <div
+        ref={ref}
+        className={`pokecard relative flex items-center hover:scale-105 duration-150 justify-between p-5 cursor-pointer rounded-lg shadow-2xl h-[170px] ${pokemon.types[0].type.name}`}
+      >
+        {/* Infos */}
+        <div className="flex flex-col gap-1 w-5/12">
+          {/* Pokemon ID */}
+          <span className="text-sm font-extrabold" style={{ color: "#0006" }}>
+            #{pokemon.id}
+          </span>
+          {/* Pokemon Name */}
+          <span className="text-3xl font-semibold text-white">
+            {upperFirst(translateName(pokemon.name))}
+          </span>
+          {/* Pokemon Types */}
+          <div className="types flex gap-1 text-white text-xs">
+            {pokemon.types.map((type) => (
+              <div
+                key={`${pokemon.name}-${type.type.name}}`}
+                className={`rounded px-1.5 py-1 ${type.type.name} flex items-center gap-1`}
+              >
+                <img
+                  src={`/types/${type.type.name}.svg`}
+                  alt={type.type.name}
+                  className="w-3 h-3"
+                />
+                {upperFirst(translateType(type.type.name))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Image */}
-      <div className="w-7/12 relative h-[190px]">
-        <div className="absolute right-0 -top-14">
-          <img
-            src={pokemon.sprites.other.home.front_default}
-            alt="pokemon"
-            style={{ maxWidth: "190px", height: 190 }}
-          />
+        {/* Image */}
+        <div className="w-7/12 relative h-[190px]">
+          <div className="absolute right-0 -top-14">
+            <img
+              src={pokemon.sprites.other.home.front_default}
+              alt="pokemon"
+              style={{ maxWidth: "190px", height: 190 }}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
